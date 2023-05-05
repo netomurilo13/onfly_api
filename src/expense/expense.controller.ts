@@ -4,13 +4,16 @@ import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Expense } from './entities/expense.entity';
+import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
+import { User } from './../user/entities/user.entity';
 
 @Controller('expense')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
   @Post()
-  create(@Body() createExpenseDto: CreateExpenseDto) {
+  create(@Body() createExpenseDto: CreateExpenseDto, @CurrentUser() user: User) {
+    createExpenseDto.userId = user.id;
     return this.expenseService.create(createExpenseDto);
   }
 

@@ -15,8 +15,6 @@ export class CreateExpenseDto extends Expense{
   @IsString()
   description?: string;
 
-  @IsNotEmpty()
-  @IsNumber()
   userId: number;
 
   user: Prisma.UserCreateNestedOneWithoutExpensesInput;
