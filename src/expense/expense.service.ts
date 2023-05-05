@@ -44,8 +44,18 @@ export class ExpenseService {
     return expense;
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
+  async update(id: number, updateExpenseDto: UpdateExpenseDto): Promise<Expense> {
+    
+    const expense = await this.prisma.expense.update({
+      where: { id },
+      data: {
+        amount: updateExpenseDto.amount,
+        date: updateExpenseDto.date,
+        description: updateExpenseDto.description
+      }
+    });
+
+    return expense
   }
 
   async  remove(id: number): Promise<Expense> {
