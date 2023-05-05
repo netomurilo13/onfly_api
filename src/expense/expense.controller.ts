@@ -21,6 +21,7 @@ export class ExpenseController {
   findAll() {
     return this.expenseService.findAll();
   }
+
   //TODO Incluir tipagem
   @Get('/myexpenses')
   async findByUser(@CurrentUser() user: User){
@@ -40,7 +41,7 @@ export class ExpenseController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.expenseService.remove(+id);
+  remove(@Param('id') id: string,@CurrentUser() user: User) {
+    return this.expenseService.remove(+id,user.id);
   }
 }

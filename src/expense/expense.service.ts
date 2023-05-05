@@ -58,8 +58,21 @@ export class ExpenseService {
     return expense
   }
 
-  async  remove(id: number): Promise<Expense> {
-    const expense = await this.prisma.expense.delete({ where: { id } });
-    return expense;
+  async remove(id: number, userId: number): Promise<Expense> {
+    const vectorExpenses = await this.findByUser(userId);
+    console.log(vectorExpenses)
+    let isValid = false;
+    for (let i = 0; i < vectorExpenses.length; i++) {
+      if (vectorExpenses[i].id == id) {
+        console.log(vectorExpenses[i])
+        isValid = true;
+      }
+    }
+    if (isValid) {
+      const expense = await this.prisma.expense.delete({ where: { id } });
+      return expense;
+    } else {
+      throw new Error("Não existe essa Despesa")
+    }
   }
 }
