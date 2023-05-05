@@ -62,9 +62,9 @@ export class ExpenseService {
     const vectorExpenses = await this.findByUser(userId);
     console.log(vectorExpenses)
     let isValid = false;
-    for (let i = 0; i < vectorExpenses.length; i++) {
-      if (vectorExpenses[i].id == id) {
-        console.log(vectorExpenses[i])
+    for (const element of vectorExpenses) {
+      if (element.id == id) {
+        console.log(element)
         isValid = true;
       }
     }
