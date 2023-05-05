@@ -3,6 +3,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { Expense } from './entities/expense.entity';
 
 @Controller('expense')
 export class ExpenseController {
@@ -17,6 +18,13 @@ export class ExpenseController {
   findAll() {
     return this.expenseService.findAll();
   }
+  //TODO Incluir tipagem
+  @Get('/myexpenses/:userId')
+  async findByUser(@Param('userId') userId: number){
+  const expenses = await this.expenseService.findByUser(userId);
+
+  return expenses;
+}
 
   @Get(':id')
   findOne(@Param('id') id: string) {

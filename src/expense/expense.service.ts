@@ -29,8 +29,18 @@ export class ExpenseService {
     return this.prisma.expense.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} expense`;
+  async findByUser(userId: number): Promise<Expense[]> {
+    const expenses = await this.prisma.expense.findMany({
+      where: { userId },
+      include: { user: true },
+    });
+  
+    return expenses;
+  }
+
+  async findOne(id: number) : Promise<Expense> {
+    const expense = await this.prisma.expense.findUnique({ where: { id } });
+    return expense;
   }
 
   update(id: number, updateExpenseDto: UpdateExpenseDto) {
