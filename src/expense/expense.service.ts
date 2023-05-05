@@ -8,7 +8,7 @@ import { Expense } from '@prisma/client';
 @Injectable()
 export class ExpenseService {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async create(createExpenseDto: CreateExpenseDto): Promise<Expense> {
     const expense = await this.prisma.expense.create({
       data: {
@@ -16,14 +16,12 @@ export class ExpenseService {
         date: createExpenseDto.date,
         description: createExpenseDto.description,
         user: {
-          connect: { id: createExpenseDto.userId }
-        }
-
-      }
+          connect: { id: createExpenseDto.userId },
+        },
+      },
     });
 
     return expense;
-
   }
 
   findAll() {
@@ -35,36 +33,47 @@ export class ExpenseService {
       where: { userId },
       include: { user: true },
     });
-  
+
     return expenses;
   }
 
-  async findOne(id: number) : Promise<Expense> {
+  async findOne(id: number): Promise<Expense> {
     const expense = await this.prisma.expense.findUnique({ where: { id } });
     return expense;
   }
 
-  async update(id: number, updateExpenseDto: UpdateExpenseDto): Promise<Expense> {
-    
-    const expense = await this.prisma.expense.update({
-      where: { id },
-      data: {
-        amount: updateExpenseDto.amount,
-        date: updateExpenseDto.date,
-        description: updateExpenseDto.description
+  async update(
+    id: number,
+    updateExpenseDto: UpdateExpenseDto,
+    userId: number,
+  ): Promise<Expense> {
+    const vectorExpenses = await this.findByUser(userId);
+    let isValid = false;
+    for (const element of vectorExpenses) {
+      if (element.id == id) {
+        isValid = true;
       }
-    });
-
-    return expense
+    }
+    if (isValid) {
+      const expense = await this.prisma.expense.update({
+        where: { id },
+        data: {
+          amount: updateExpenseDto.amount,
+          date: updateExpenseDto.date,
+          description: updateExpenseDto.description,
+        },
+      });
+      return expense;
+    }else {
+      throw new Error('Não existe essa Despesa');
+    }
   }
 
   async remove(id: number, userId: number): Promise<Expense> {
     const vectorExpenses = await this.findByUser(userId);
-    console.log(vectorExpenses)
     let isValid = false;
     for (const element of vectorExpenses) {
       if (element.id == id) {
-        console.log(element)
         isValid = true;
       }
     }
@@ -72,7 +81,7 @@ export class ExpenseService {
       const expense = await this.prisma.expense.delete({ where: { id } });
       return expense;
     } else {
-      throw new Error("Não existe essa Despesa")
+      throw new Error('Não existe essa Despesa');
     }
   }
 }
