@@ -24,6 +24,7 @@ export class ExpenseService {
     return expense;
   }
 
+  //TO-DO add a Admin User
   findAll() {
     return this.prisma.expense.findMany();
   }
@@ -36,7 +37,7 @@ export class ExpenseService {
 
     return expenses;
   }
-
+  //TO-DO add a Admin User
   async findOne(id: number): Promise<Expense> {
     const expense = await this.prisma.expense.findUnique({ where: { id } });
     return expense;
