@@ -14,7 +14,7 @@ export class ExpenseController {
   @Post()
   create(@Body() createExpenseDto: CreateExpenseDto, @CurrentUser() user: User) {
     createExpenseDto.userId = user.id;
-    return this.expenseService.create(createExpenseDto);
+    return this.expenseService.create(createExpenseDto, user.email);
   }
 
   @Get()

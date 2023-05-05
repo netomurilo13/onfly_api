@@ -4,12 +4,13 @@ import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { PrismaService } from './../prisma/prisma.service';
 import { Expense } from '@prisma/client';
+import { sendEmailToUser } from 'src/services/sendEmail.service';
 
 @Injectable()
 export class ExpenseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createExpenseDto: CreateExpenseDto): Promise<Expense> {
+  async create(createExpenseDto: CreateExpenseDto, email: string): Promise<Expense> {
     const expense = await this.prisma.expense.create({
       data: {
         amount: createExpenseDto.amount,
@@ -20,7 +21,7 @@ export class ExpenseService {
         },
       },
     });
-
+    sendEmailToUser(email, createExpenseDto)
     return expense;
   }
 
