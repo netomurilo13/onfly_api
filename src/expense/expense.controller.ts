@@ -22,9 +22,9 @@ export class ExpenseController {
     return this.expenseService.findAll();
   }
   //TODO Incluir tipagem
-  @Get('/myexpenses/:userId')
-  async findByUser(@Param('userId') userId: number){
-  const expenses = await this.expenseService.findByUser(userId);
+  @Get('/myexpenses')
+  async findByUser(@CurrentUser() user: User){
+  const expenses = await this.expenseService.findByUser(user.id);
 
   return expenses;
 }
