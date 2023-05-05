@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+import { Prisma } from '@prisma/client';
 import { User } from '../entities/user.entity';
 import {
   IsEmail,
@@ -21,4 +23,6 @@ export class CreateUserDto extends User {
 
   @IsString()
   name: string;
+
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUserInput;
 }

@@ -1,17 +1,32 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { PrismaService } from './../prisma/prisma.service';
+import { Expense } from '@prisma/client';
 
 @Injectable()
 export class ExpenseService {
   constructor(private readonly prisma: PrismaService) {}
-  create(createExpenseDto: CreateExpenseDto) {
-    return 'This action adds a new expense';
+  
+  async create(createExpenseDto: CreateExpenseDto): Promise<Expense> {
+    const expense = await this.prisma.expense.create({
+      data: {
+        amount: createExpenseDto.amount,
+        date: createExpenseDto.date,
+        description: createExpenseDto.description,
+        user: {
+          connect: { id: createExpenseDto.userId }
+        }
+
+      }
+    });
+
+    return expense;
   }
 
   findAll() {
-    return `This action returns all expense`;
+    return this.prisma.expense.findMany();
   }
 
   findOne(id: number) {
