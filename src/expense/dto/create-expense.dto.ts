@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Prisma } from '@prisma/client';
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString,Validate,MaxLength,Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString,Validate,MaxLength,Min } from 'class-validator';
 import { Expense } from '../entities/expense.entity';
-import { DataPassada } from 'src/validators/expense.validator';
+import { DataPassada } from './../../validators/expense.validator';
 
 export class CreateExpenseDto extends Expense{
   @IsNotEmpty()

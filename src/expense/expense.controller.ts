@@ -4,8 +4,8 @@ import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { Expense } from './entities/expense.entity';
-import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
 import { User } from './../user/entities/user.entity';
+import { CurrentUser } from './../auth/decorators/currentUser.decorator';
 
 @Controller('expense')
 export class ExpenseController {
