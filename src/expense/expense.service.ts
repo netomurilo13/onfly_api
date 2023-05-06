@@ -4,7 +4,7 @@ import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { PrismaService } from './../prisma/prisma.service';
 import { Expense } from '@prisma/client';
-import { sendEmailToUser } from 'src/services/sendEmail.service';
+import { sendEmailToUser } from './services/sendEmail.service';
 
 @Injectable()
 export class ExpenseService {

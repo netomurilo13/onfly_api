@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Expense } from './../expense/entities/expense.entity';
+import { Expense } from '../entities/expense.entity';
 const nodemailer = require('nodemailer');
 
 export async function sendEmailToUser(email: string, expense: Expense) {
