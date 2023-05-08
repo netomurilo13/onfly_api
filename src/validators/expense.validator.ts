@@ -13,6 +13,6 @@ export class DataPassada implements ValidatorConstraintInterface {
   }
 
   defaultMessage() {
-    return 'A data não pode ser no futuro ou seu formato está incorreto';
+    return 'The date cannot be in the future or its format is incorrect';
   }
 }

@@ -7,10 +7,10 @@ import { DataPassada } from './../../validators/expense.validator';
 export class CreateExpenseDto extends Expense{
   @IsNotEmpty()
   @IsNumber()
-  @Min(0, { message: 'O valor não pode ser negativo' })
+  @Min(0, { message: 'The value cannot be negative' })
   amount: number;
   
-  @IsNotEmpty({ message: 'A data não pode estar vazia' })
+  @IsNotEmpty({ message: 'Date cannot be empty' })
   @Validate(DataPassada)
   date: Date;
 

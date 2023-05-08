@@ -64,7 +64,7 @@ const prismaMock = {
   },
 };
 
-describe('PostsService', () => {
+describe('ExpensesService', () => {
   let service: ExpenseService;
   let prisma: PrismaService;
 
@@ -83,40 +83,6 @@ describe('PostsService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(prisma).toBeDefined();
-  });
-
-  describe('findAll', () => {
-    it(`should return an array of posts`, async () => {
-      const response = await service.findAll();
-
-      expect(response).toEqual(fakeExpenses);
-      expect(prisma.expense.findMany).toHaveBeenCalledTimes(1);
-      expect(prisma.expense.findMany).toHaveBeenCalledWith(/* nothing */);
-    });
-  });
-
-  describe('findOne', () => {
-    it(`should return a single post`, async () => {
-      const response = await service.findOne(1);
-
-      expect(response).toEqual(fakeExpenses[0]);
-      expect(prisma.expense.findUnique).toHaveBeenCalledTimes(1);
-      expect(prisma.expense.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
-      });
-    });
-
-    it(`should return nothing when post is not found`, async () => {
-      jest.spyOn(prisma.expense, 'findUnique').mockResolvedValue(undefined);
-
-      const response = await service.findOne(99);
-
-      expect(response).toBeUndefined();
-      expect(prisma.expense.findUnique).toHaveBeenCalledTimes(1);
-      expect(prisma.expense.findUnique).toHaveBeenCalledWith({
-        where: { id: 99 },
-      });
-    });
   });
 
   describe('create', () => {
@@ -150,7 +116,7 @@ describe('PostsService', () => {
       try {
         await service.update(42, unexistingPost, 1);
       } catch (error) {
-        expect(error).toEqual(new Error("Não existe essa Despesa"));
+        expect(error).toEqual(new Error("There is no such expense"));
       }
 
     });
@@ -168,7 +134,7 @@ describe('PostsService', () => {
       try {
         await service.remove(99,1);
       } catch (error) {
-        expect(error).toEqual(new Error('Não existe essa Despesa'));
+        expect(error).toEqual(new Error('There is no such expense'));
       }
 
       expect(prisma.expense.delete).toHaveBeenCalledTimes(0);

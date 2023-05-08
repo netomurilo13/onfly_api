@@ -25,11 +25,6 @@ export class ExpenseService {
     return expense;
   }
 
-  //TO-DO add a Admin User
-  findAll() {
-    return this.prisma.expense.findMany();
-  }
-
   async findByUser(userId: number): Promise<Expense[]> {
     const expenses = await this.prisma.expense.findMany({
       where: { userId },
@@ -37,11 +32,6 @@ export class ExpenseService {
     });
 
     return expenses;
-  }
-  //TO-DO add a Admin User
-  async findOne(id: number): Promise<Expense> {
-    const expense = await this.prisma.expense.findUnique({ where: { id } });
-    return expense;
   }
 
   async update(
@@ -67,7 +57,7 @@ export class ExpenseService {
       });
       return expense;
     }else {
-      throw new Error('Não existe essa Despesa');
+      throw new Error('There is no such expense');
     }
   }
 
@@ -83,7 +73,7 @@ export class ExpenseService {
       const expense = await this.prisma.expense.delete({ where: { id } });
       return expense;
     } else {
-      throw new Error('Não existe essa Despesa');
+      throw new Error('There is no such expense');
     }
   }
 }

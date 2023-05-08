@@ -63,12 +63,13 @@ const userMock = {
 const serviceMock = {
   findAll: jest.fn().mockResolvedValue(fakeExpenses),
   findOne: jest.fn().mockReturnValue(fakeExpenses[0]),
+  findByUser: jest.fn().mockReturnValue(fakeExpenses[0]),
   create: jest.fn().mockReturnValue(fakeExpenses[0]),
   update: jest.fn().mockReturnValue(fakeExpenses[0]),
   remove: jest.fn(),
 };
 
-describe('PostsController', () => {
+describe('ExpensesController', () => {
   let controller: ExpenseController;
   let service: ExpenseService;
 
@@ -82,14 +83,6 @@ describe('PostsController', () => {
     service = module.get<ExpenseService>(ExpenseService);
   });
 
-  describe('findAll', () => {
-    it('should return an array of categories', async () => {
-      const response = await controller.findAll();
-
-      expect(service.findAll).toBeCalledTimes(1);
-      expect(response).toEqual(fakeExpenses);
-    });
-  });
 
   describe('create', () => {
     it('should create a post and return', async () => {
@@ -102,9 +95,9 @@ describe('PostsController', () => {
 
   describe('findOne', () => {
     it('should return one post', async () => {
-      const response = await controller.findOne('13');
+      const response = await controller.findByUser(userMock);
 
-      expect(service.findOne).toBeCalledWith(13);
+      expect(service.findByUser).toBeCalledWith(5);
       expect(response).toEqual(fakeExpenses[0]);
     });
   });
